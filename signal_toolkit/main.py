@@ -22,14 +22,16 @@ class SignalToolkit:
                 plugin.process_packet(dot11_packet)
 
     def start(self):
-        print('Starting monitoring on %s' % self.iface_manager.iface)
-        self.iface_manager.start()
-        scapy.sniff(iface=self.iface_manager.iface, prn=self.process_packet, store=0)
         for plugin in self.plugins:
             plugin.start()
 
+        print('Starting monitoring on %s' % self.iface_manager.iface)
+        self.iface_manager.start()
+        scapy.sniff(iface=self.iface_manager.iface, prn=self.process_packet, store=0)
+
     def stop(self):
-        print('Stopping monitoring on %s' % self.iface_manager.iface)
-        self.iface_manager.stop()
         for plugin in self.plugins:
             plugin.stop()
+        
+        print('Stopping monitoring on %s' % self.iface_manager.iface)
+        self.iface_manager.stop()
